@@ -5,7 +5,7 @@
     >
       <div class="flex gap-1 mb-2">
         {{ value1 }}
-        {{ value2 }}
+        {{ value1 }}
       </div>
       <div class="flex gap-2">
         <v-checkbox
@@ -26,10 +26,6 @@
         >
           {{ label }}
         </v-checkbox>
-        <v-button :size="size">
-          Test Button
-        </v-button>
-        <v-input model-value="Test Input" :size="size" class="bg-red-200" />
       </div>
     </div>
     <div class="border border-natural-300 dark:border-natural-700 rounded p-5">

@@ -252,6 +252,16 @@ export interface TableSelectedGenericInfo<T extends TableItem> {
   /** 剔除的列表，仅有全选的时候有效 */
   excludeList: T[]
 }
+export interface TableColumnControl {
+  /** 表头，唯一，对应列名 */
+  label: string
+  /** 是否显示 */
+  show?: boolean
+  /** 固定位置 */
+  fixed?: "left" | "right"
+  /** 列宽度 */
+  width?: string
+}
 
 export type TreeValue = string | number | boolean | null | undefined
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */

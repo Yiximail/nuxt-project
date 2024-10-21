@@ -39,8 +39,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="color"
@@ -93,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import type VProgress from "~/components/v-progress/v-progress.vue"
+import type { VProgress } from "#components"
 
 definePageMeta({ layout: "demo" })
 
@@ -117,8 +116,6 @@ const barColor = computed(() => {
       return "bg-warning-500"
     case "danger":
       return "bg-danger-500"
-    case "info":
-      return "bg-info-500"
     default:
       return "bg-natural-500"
   }

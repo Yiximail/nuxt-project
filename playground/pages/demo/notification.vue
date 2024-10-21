@@ -15,9 +15,6 @@
       <v-button color="danger" @click="showNotification('error')">
         error
       </v-button>
-      <v-button color="info" @click="showNotification('info')">
-        info
-      </v-button>
       <v-button color="natural" @click="showNotification()">
         自定义通知
       </v-button>
@@ -69,7 +66,7 @@ const message = ref("内容")
 const duration = ref(3)
 
 const showNotification = (
-  type?: "primary" | "success" | "warning" | "error" | "info"
+  type?: "primary" | "success" | "warning" | "error"
 ) => {
   if (type) {
     if (type === "primary") {

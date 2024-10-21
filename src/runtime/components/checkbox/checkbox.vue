@@ -119,7 +119,6 @@ const inputClass = computed(() => {
     props.modelValue || props.indeterminate
       ? ui.value.actived.input
       : ui.value.inactived.input,
-    props.modelValue ? ui.value.actived.input : ui.value.inactived.input,
     !disabled.value ? ui.value.enabled.input : ui.value.disabled.input
   )
 })

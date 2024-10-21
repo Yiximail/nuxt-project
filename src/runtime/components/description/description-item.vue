@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { DESCRIPTION_INJECTION } from "../../utils/injection-keys"
 import guid from "../../utils/guid"
-import { watchEffect, onBeforeUnmount, inject } from "vue"
+import { watch, onBeforeUnmount, inject, toRefs } from "vue"
 
 import type { ClassNameValue, ComponentSlot } from "../../types"
 
@@ -39,24 +39,48 @@ const slots = defineSlots<{
   default: () => ComponentSlot
 }>()
 
+const {
+  label,
+  span,
+  content,
+  itemClass,
+  labelClass,
+  class: className
+} = toRefs(props)
+
 const { setItem, removeItem } = inject(DESCRIPTION_INJECTION)!
 const id = guid()
 const update = () => {
   setItem({
     id,
-    label: props.label,
-    span: props.span,
-    content: props.content,
-    itemClass: props.itemClass,
-    labelClass: props.labelClass,
-    contentClass: props.class,
+    label: label.value,
+    span: span.value,
+    content: content.value,
+    itemClass: itemClass.value,
+    labelClass: labelClass.value,
+    contentClass: className.value,
     slots: {
       label: slots.label,
       content: slots.default
     }
   })
 }
-watchEffect(update)
+watch(
+  () => [
+    label.value,
+    span.value,
+    content.value,
+    itemClass.value,
+    labelClass.value,
+    className.value
+  ],
+  update,
+  {
+    onTrigger (event) {
+      console.log(event)
+    }
+  }
+)
 update()
 
 onBeforeUnmount(() => {

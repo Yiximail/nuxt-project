@@ -15,10 +15,6 @@
         >
           {{ label }}
         </v-switch>
-        <v-button :size="size">
-          Test Button
-        </v-button>
-        <v-input model-value="Test Input" :size="size" class="bg-red-200" />
       </div>
     </div>
     <v-form>

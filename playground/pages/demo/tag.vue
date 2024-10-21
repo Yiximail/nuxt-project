@@ -38,7 +38,7 @@
       </v-form-item>
       <v-form-item label="类型">
         <v-radio-button
-          v-for="value in ['base', 'plain', 'outline', 'text']"
+          v-for="value in ['base', 'plain', 'text']"
           :key="value"
           v-model="type"
           :value="value"

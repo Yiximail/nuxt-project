@@ -48,8 +48,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="confirmColor"
@@ -74,8 +73,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="cancelColor"
@@ -118,7 +116,7 @@ const title = ref("标题")
 const message = ref("内容")
 
 const showDialog = (
-  type?: "primary" | "success" | "warning" | "error" | "info"
+  type?: "primary" | "success" | "warning" | "error"
 ) => {
   if (type) {
     if (type === "primary") {

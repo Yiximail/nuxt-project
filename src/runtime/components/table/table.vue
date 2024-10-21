@@ -98,10 +98,11 @@ import type {
   TableDragObject,
   DragPosition,
   TableItem,
+  TableColumnControl,
   ComponentSlot,
   UI
 } from "../../types"
-import type { TableColumn, TableColumnControl } from "../../types/injections"
+import type { TableColumn } from "../../types/injections"
 import type { CSSProperties } from "vue"
 
 const containerRef = ref<HTMLDivElement>()
@@ -505,7 +506,8 @@ const changeFixed = (label: string, fixed: TableColumnControl["fixed"]) => {
   const column = list.find((item) => item.label === label)
   if (!column) return
   column.fixed = fixed
-  updateFixedDistance(); console.log("changeFixed")
+  updateFixedDistance()
+  console.log("changeFixed")
   updateControlList(list)
 }
 const changeWidth = (label: string, width?: TableColumn["width"]) => {

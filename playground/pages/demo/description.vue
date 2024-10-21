@@ -5,9 +5,9 @@
     >
       <v-description :layout="layout" :column="column" :border="border">
         <v-description-item
-          v-for="(item, index) in content"
-          :key="index"
-          :label="`标签${index + 1}`"
+          v-for="item in content"
+          :key="item.content"
+          :label="`标签${item.content}`"
           :span="item.span"
         >
           {{ item.content }}
@@ -40,7 +40,7 @@
       <v-form-item label="是否显示边框">
         <v-checkbox v-model="border" />
       </v-form-item>
-      <v-form-item
+      <!-- <v-form-item
         v-for="(item, index) in content"
         :key="index"
         :label="`标签${index + 1}`"
@@ -59,7 +59,7 @@
             </v-option>
           </v-select>
         </v-fieldset>
-      </v-form-item>
+      </v-form-item> -->
     </v-form>
   </div>
 </template>
@@ -74,7 +74,7 @@ const layout = ref<
 "vertical" | "horizontal" | "vertical-inline" | "horizontal-inline"
 >("horizontal")
 
-const content = ref<{ content: string, span: number | undefined }[]>([
+const content = ref<{ content: string; span: number | undefined }[]>([
   { content: "内容1", span: undefined },
   { content: "内容2", span: 1 },
   { content: "内容3", span: 1 },

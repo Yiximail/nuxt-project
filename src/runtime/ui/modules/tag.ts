@@ -25,7 +25,7 @@ export const tag = {
     )
   },
   rounded: "rounded-full",
-  border: "border-[theme(colors.{color}.500/0.5)]",
+  border: "border border-[theme(colors.{color}.500/0.5)]",
   shadow:
     "shadow-md shadow-[theme(colors.natural.500/0.5)] dark:shadow-[theme(colors.{color}.500/0.5)]",
   closeButton: "h-[1em] w-[1em] mr-[-0.5em] cursor-pointer"

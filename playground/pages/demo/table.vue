@@ -100,6 +100,8 @@
 </template>
 
 <script setup lang="ts">
+import type { TableSelectedGenericInfo } from "#ui"
+
 definePageMeta({ layout: "demo" })
 interface SelectItem {
   value: undefined | string
@@ -202,7 +204,7 @@ const dropHandle = (
 
 const refreshTable = async () => {
   tableLoading.value = true
-  await new Promise((resolve) => window.setTimeout(resolve, 1000))
+  await new Promise((resolve) => window.setTimeout(resolve, 500))
   const list = [] as typeof tableData.value
   for (let i = 0; i < 30; i++) {
     list.push({
@@ -222,7 +224,9 @@ const pageSize = ref(20)
 const pageIndex = ref(1)
 const total = ref(1000)
 
-refreshTable()
+onMounted(() => {
+  refreshTable()
+})
 
 const inputValue = ref<string>()
 const startValue = ref<string>()

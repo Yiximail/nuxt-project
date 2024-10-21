@@ -1,10 +1,8 @@
 <template>
   <div>
     <div
-      class="border-2 border-natural-300 dark:border-natural-700 rounded p-5 flex items-center"
+      class="border-2 border-natural-300 dark:border-natural-700 rounded p-5 flex gap-2 items-center"
     >
-      <span class="text-sm">abcde</span>
-      <span class="text-lg">abcde</span>
       <v-button
         :border="border"
         :rounded="rounded"
@@ -44,9 +42,6 @@
           {{ buttonText }}
         </template>
       </v-button>
-      <v-fieldset label="la" outset>
-        <v-input v-model="buttonIcon" :size="size" />
-      </v-fieldset>
     </div>
     <v-form>
       <v-form-item label="按钮图标 svg" fieldset="outline">
@@ -94,21 +89,12 @@
           {{ value }}
         </v-radio-button>
       </v-form-item>
-      <v-form-item label="简单模式">
-        <template #info>
-          用于其他组件，只有一个图标的按钮
-        </template>
-        <v-checkbox v-model="simple" />
-      </v-form-item>
       <div class="flex gap-10">
         <v-form-item label="边框">
           <v-checkbox v-model="border" />
         </v-form-item>
         <v-form-item label="圆形按钮">
           <v-checkbox v-model="rounded" />
-        </v-form-item>
-        <v-form-item label="图标按钮">
-          <v-checkbox v-model="icon" />
         </v-form-item>
         <v-form-item label="阴影">
           <v-checkbox v-model="shadow" />

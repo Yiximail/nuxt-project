@@ -216,7 +216,7 @@ const setItem = (item: DescriptionItem) => {
   if (index === -1) {
     itemList.value.push(item)
   } else {
-    itemList.value.splice(index, 1, item)
+    Object.assign(itemList.value[index], item)
   }
 }
 const removeItem = (id: string) => {

@@ -23,11 +23,6 @@
           error
         </v-button>
       </v-popconfirm>
-      <v-popconfirm :title="title" :content="content" confirm-color="info">
-        <v-button color="info">
-          info
-        </v-button>
-      </v-popconfirm>
       <v-popconfirm
         :title="title"
         :icon="{ svg: buttonIcon }"
@@ -70,8 +65,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="confirmColor"
@@ -96,8 +90,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="cancelColor"

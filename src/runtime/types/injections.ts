@@ -11,6 +11,7 @@ import type {
   FormTrigger,
   TableItem,
   TableDragObject,
+  TableColumnControl,
   TreeObject,
   TreeItem,
   TreeDragObject,
@@ -253,16 +254,7 @@ export interface TableColumn {
     default?: (props: { row: TableItem }) => ComponentSlot
   }
 }
-export interface TableColumnControl {
-  /** 表头，唯一，对应列名 */
-  label: string
-  /** 是否显示 */
-  show?: boolean
-  /** 固定位置 */
-  fixed?: "left" | "right"
-  /** 列宽度 */
-  width?: string
-}
+
 export interface TableInjection {
   /** 表格类 */
   classes: import("vue").Ref<TableColumnClasses>

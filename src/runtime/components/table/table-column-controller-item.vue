@@ -93,8 +93,13 @@ import useUi from "../../composables/use-ui"
 import classMerge from "../../utils/class-merge"
 import { ref, computed } from "vue"
 
-import type { DeepPartial, ClassNameValue, DragPosition, UI } from "../../types"
-import type { TableColumnControl } from "../../types/injections"
+import type {
+  DeepPartial,
+  ClassNameValue,
+  DragPosition,
+  TableColumnControl,
+  UI
+} from "../../types"
 
 const containerRef = ref<HTMLDivElement>()
 

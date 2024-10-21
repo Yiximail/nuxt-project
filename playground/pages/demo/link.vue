@@ -24,8 +24,7 @@
             'primary',
             'success',
             'warning',
-            'danger',
-            'info'
+            'danger'
           ]"
           :key="value"
           v-model="color"

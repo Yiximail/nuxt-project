@@ -191,10 +191,10 @@ const menuStyle = computed(() => {
   } else {
     style["--expanded-width"] = props.expandedWidth
   }
-  if (typeof props.expandedWidth === "number") {
-    style["--collapsed-width"] = `${props.expandedWidth}px`
+  if (typeof props.collapsedWidth === "string") {
+    style["--collapsed-width"] = props.collapsedWidth
   } else {
-    style["--collapsed-width"] = props.expandedWidth
+    style["--collapsed-width"] = `${props.collapsedWidth}px`
   }
   return style
 })
