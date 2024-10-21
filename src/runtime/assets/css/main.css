@@ -1,0 +1,77 @@
+:root::-webkit-scrollbar {
+  @apply bg-transparent h-2 w-2;
+}
+:root::-webkit-scrollbar-track {
+  @apply rounded-md bg-transparent;
+}
+:root::-webkit-scrollbar-thumb {
+  @apply rounded-md cursor-grab transition-all active:cursor-grabbing;
+  @apply bg-natural-300 hover:bg-natural-400;
+  @apply dark:bg-natural-700 dark:hover:bg-natural-600;
+}
+:root.dark::-webkit-scrollbar-thumb {
+  @apply bg-natural-700 hover:bg-natural-600;
+}
+:root::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+:root::-webkit-scrollbar-button {
+  display: none;
+}
+
+html {
+  @apply transition;
+  @apply bg-natural-50 text-natural-900;
+}
+html *::placeholder {
+  @apply text-natural-400/60;
+}
+
+html.dark {
+  @apply bg-natural-950 text-natural-100 placeholder:text-natural-400;
+}
+html.dark *::placeholder {
+  @apply text-natural-400/60;
+}
+
+.v-scrollbar-none {
+  scrollbar-width: none;
+}
+.v-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.v-native-scrollbar::-webkit-scrollbar {
+  @apply bg-transparent h-2 w-2;
+}
+.v-native-scrollbar::-webkit-scrollbar-track {
+  @apply rounded-md bg-transparent;
+}
+.v-native-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-md cursor-grab transition-all active:cursor-grabbing;
+  @apply bg-natural-300 hover:bg-natural-400;
+  @apply dark:bg-natural-700 dark:hover:bg-natural-600;
+}
+.v-native-scrollbar::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+.v-native-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+.v-fade-enter-active,
+.v-fade-leave-active {
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.v-fade-enter-from,
+.v-fade-leave-to {
+  opacity: 0;
+}
+
+.v-fade-slow-enter-active,
+.v-fade-slow-leave-active {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.v-fade-slow-enter-from,
+.v-fade-slow-leave-to {
+  opacity: 0;
+}
