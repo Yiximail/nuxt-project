@@ -58,7 +58,7 @@ const props = withDefaults(
     class?: ClassNameValue
     /** 垂直滚动条类名 */
     verticalClass?: ClassNameValue
-    /** 水平滚动台哦类名 */
+    /** 水平滚动条类名 */
     horizontalClass?: ClassNameValue
     /** 组件样式配置 */
     ui?: DeepPartial<UI["scrollbar"]> & DeepPartial<ScrollbarBarUi>

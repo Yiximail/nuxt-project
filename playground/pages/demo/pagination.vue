@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-1">
     <div
       class="border-2 border-natural-300 dark:border-natural-700 rounded flex p-5 flex-col gap-1"
     >
@@ -9,6 +9,7 @@
       <v-pagination
         v-model:page-index="pageIndex"
         v-model:page-size="pageSize"
+        class="max-w-full"
         :total="total"
         :show-page-size="showPageSize"
         :show-total="showTotal"
@@ -18,7 +19,7 @@
       <v-form-item label="项总数" fieldset="outline">
         <v-input-number v-model="total" />
       </v-form-item>
-      <div class="p-3 flex">
+      <div class="p-3 flex gap-3">
         <v-form-item label="显示总数">
           <v-checkbox v-model="showTotal" />
         </v-form-item>

@@ -12,6 +12,7 @@
       <v-popper
         v-model="showYearPopper"
         trigger="click"
+        placement="bottom"
         class="[--popper-bg:theme(colors.natural.100)] dark:[--popper-bg:theme(colors.natural.900)]"
         @show="setDefaultYearIndex"
       >
@@ -89,6 +90,7 @@
       </v-popper>
       <v-popper
         trigger="click"
+        placement="bottom"
         class="flex flex-wrap gap-1 justify-between p-2 w-[210px] [--popper-bg:theme(colors.natural.100)] dark:[--popper-bg:theme(colors.natural.900)]"
       >
         <template #default>

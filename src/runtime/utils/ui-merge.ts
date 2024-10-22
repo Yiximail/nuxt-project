@@ -43,7 +43,7 @@ const uiMerge = <T extends Record<string, unknown>>(
       }
     }
   }
-  for (const key in Object.keys(source).filter(
+  for (const key of Object.keys(source).filter(
     (key) => !Object.keys(result).includes(key)
   )) {
     if (typeof source[key] === "object") {

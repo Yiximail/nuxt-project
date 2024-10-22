@@ -15,9 +15,7 @@
         :ui="{
           container: scrollerClass,
           content: contentClass,
-          vertical: {
-            track: ui.scrollbar
-          },
+          vertical: { track: ui.scrollbar },
           view: viewClass
         }"
       >
@@ -166,10 +164,7 @@ const contentClass = computed(() => {
   )
 })
 const viewClass = computed(() => {
-  return classMerge(
-    ui.value.view,
-    isExpanded.value && ui.value.expanded.view
-  )
+  return classMerge(ui.value.view, isExpanded.value && ui.value.expanded.view)
 })
 const footerClass = computed(() => {
   return classMerge(
