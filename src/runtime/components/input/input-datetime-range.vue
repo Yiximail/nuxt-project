@@ -52,7 +52,7 @@
     :reference="containerRef"
     :trigger="['click']"
     strategy="fixed"
-    placement="bottom-start"
+    :placement="['bottom-start', 'top-start']"
     v-bind="popper"
     :disabled="disabled"
     @show="showHandle"

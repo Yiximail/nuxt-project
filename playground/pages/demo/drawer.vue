@@ -19,9 +19,10 @@
         v-model="isShow"
         :placement="placement"
         :title="title"
-        :icon="{ svg: buttonIcon }"
+        :icon="{ svg: buttonIcon, class: 'text-natural-500' }"
         :show-close="showClose"
         :close-on-click="closeOnClick"
+        :mask="mask"
       >
         {{ content }}
       </v-drawer>
@@ -39,12 +40,17 @@
       <v-form-item label="内容" fieldset="outline">
         <v-input v-model="content" />
       </v-form-item>
-      <v-form-item label="显示关闭按钮">
-        <v-checkbox v-model="showClose" />
-      </v-form-item>
-      <v-form-item label="点击蒙版关闭">
-        <v-checkbox v-model="closeOnClick" />
-      </v-form-item>
+      <div class="flex gap-10">
+        <v-form-item label="显示关闭按钮">
+          <v-checkbox v-model="showClose" />
+        </v-form-item>
+        <v-form-item label="点击外部关闭">
+          <v-checkbox v-model="closeOnClick" />
+        </v-form-item>
+        <v-form-item label="显示蒙版">
+          <v-checkbox v-model="mask" />
+        </v-form-item>
+      </div>
     </v-form>
   </div>
 </template>
@@ -58,6 +64,7 @@ const buttonIcon = ref(
 const isShow = ref(false)
 const showClose = ref(true)
 const closeOnClick = ref(true)
+const mask = ref(true)
 
 const title = ref("标题")
 const content = ref("内容")

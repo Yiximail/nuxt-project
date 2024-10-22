@@ -7,8 +7,8 @@
         {{ displayContent }}
       </div>
       <v-pagination
-        v-model:pageIndex="pageIndex"
-        v-model:pageSize="pageSize"
+        v-model:page-index="pageIndex"
+        v-model:page-size="pageSize"
         :total="total"
         :show-page-size="showPageSize"
         :show-total="showTotal"
@@ -18,26 +18,14 @@
       <v-form-item label="项总数" fieldset="outline">
         <v-input-number v-model="total" />
       </v-form-item>
-      <v-form-item label="方向" fieldset="outline">
-        <v-select v-model="placement" :options="placements" />
-      </v-form-item>
-      <v-form-item label="触发方式">
-        <v-radio-button v-model="trigger" value="hover">
-          鼠标悬浮
-        </v-radio-button>
-        <v-radio-button v-model="trigger" value="click">
-          点击
-        </v-radio-button>
-        <v-radio-button v-model="trigger" value="focus">
-          焦点
-        </v-radio-button>
-        <v-radio-button v-model="trigger">
-          默认
-        </v-radio-button>
-      </v-form-item>
-      <v-form-item label="显示箭头">
-        <v-checkbox v-model="arrow" />
-      </v-form-item>
+      <div class="p-3 flex">
+        <v-form-item label="显示总数">
+          <v-checkbox v-model="showTotal" />
+        </v-form-item>
+        <v-form-item label="显示页大小">
+          <v-checkbox v-model="showPageSize" />
+        </v-form-item>
+      </div>
     </v-form>
   </div>
 </template>

@@ -226,6 +226,7 @@
 
 <script setup lang="ts">
 import region from "../region"
+import type { UploaderItem, UploadFunction, SelectOption } from "#ui"
 
 definePageMeta({ layout: "demo" })
 
@@ -286,6 +287,7 @@ const quillText = ref(
   "<p>121231232133123123213213213213213213213233<strong>4</strong>5</p>"
 )
 const imageProcess = async (file: File) => {
+  console.log("upload:", file)
   await new Promise((resolve) => window.setTimeout(resolve, 2000))
   return "https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
 }
@@ -306,21 +308,17 @@ const dateTime = ref<string>()
 const startDateTime = ref<string>()
 const endDateTime = ref<string>()
 
-interface SelectItem {
-  value: undefined | string
-  label: string
-}
 const selectValue = ref<string>()
-const selectObjValue = ref<SelectItem>()
+const selectObjValue = ref<SelectOption>()
 const multipleSelectValue = ref<string[]>()
-const multipleSelectObjValue = ref<SelectItem[]>()
+const multipleSelectObjValue = ref<SelectOption[]>()
 
 const cascaderValue = ref<string>()
 const cascaderObjValue = ref<RegionItem | undefined>()
 const multipleCascaderValue = ref<string[]>()
 const multipleCascaderObjValue = ref<RegionItem[]>()
 
-const options = ref<SelectItem[]>([
+const options = ref<SelectOption[]>([
   { value: "1", label: "选项1" },
   { value: "2", label: "选项2" },
   {

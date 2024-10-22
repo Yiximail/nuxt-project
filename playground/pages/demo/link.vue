@@ -46,10 +46,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Color } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const buttonText = ref("链接")
-const color = ref("primary")
+const color = ref<Color>("primary")
 const underline = ref(true)
 
 const disabled = ref(false)

@@ -4,12 +4,13 @@
     :appear="appear"
     @enter="enterHandle"
     @after-enter="afterEnterHandle"
-    @leave="$emit('hide')"
+    @leave="leaveHandle"
     @after-leave="afterLeaveHandle"
   >
     <div
       v-if="(modelValue ?? isShowMask) || beforeMountedShow"
       :class="containerClass"
+      v-bind="$attrs"
       @mousedown="mousedownHandle"
     >
       <slot />
@@ -82,8 +83,8 @@ const mousedownHandle = (event: MouseEvent) => {
   if (props.closeOnClick) hideHandle()
 }
 
-const escCloseHandle = (e: KeyboardEvent) => {
-  if (e.key !== "Escape") return
+const escCloseHandle = (event: KeyboardEvent) => {
+  if (event.key !== "Escape") return
   emits("click-esc")
   if (props.closeOnEsc) hideHandle()
 }
@@ -97,6 +98,7 @@ let beforePaddingRight = 0
 let beforePaddingBottom = 0
 let leftScrollbarWidth = 0
 let bottomScrollbarHeight = 0
+let beforeOverflow = ""
 const showHandle = async () => {
   emits("before-show")
 
@@ -104,7 +106,7 @@ const showHandle = async () => {
   if (showResult === false) return
 
   const html = document.documentElement
-  if (html.style.overflow !== "hidden") {
+  if (html.getAttribute("data-v-mask")) {
     leftScrollbarWidth = window.innerWidth - html.clientWidth
     bottomScrollbarHeight = window.innerHeight - html.clientHeight
     const styles = window.getComputedStyle(html)
@@ -117,7 +119,9 @@ const showHandle = async () => {
       "--scrollbar-bottom-height",
       `${bottomScrollbarHeight}px`
     )
+    beforeOverflow = html.style.overflow
     html.style.overflow = "hidden"
+    html.setAttribute("data-v-mask", "true")
     fixedHtml = true
   } else {
     fixedHtml = false
@@ -135,14 +139,17 @@ const enterHandle = () => {
   if (beforeMountedShow.value) return
   emits("show")
 }
+const leaveHandle = () => {
+  emits("hide")
+}
 const afterEnterHandle = () => {
   if (beforeMountedShow.value) {
     beforeMountedShow.value = false
     return
   }
+  emits("showed")
   changing.value = false
   checkUpdate()
-  emits("showed")
 }
 const hideHandle = async () => {
   emits("before-hide")
@@ -164,13 +171,14 @@ const afterLeaveHandle = () => {
     html.style.paddingBottom = `${beforePaddingBottom}px`
     html.style.removeProperty("--scrollbar-right-width")
     html.style.removeProperty("--scrollbar-bottom-height")
-    html.style.overflow = ""
+    html.style.overflow = beforeOverflow
     fixedHtml = false
+    html.removeAttribute("data-v-mask")
   }
 
+  emits("hid")
   changing.value = false
   checkUpdate()
-  emits("hid")
 }
 const checkUpdate = () => {
   if (changing.value) return

@@ -20,20 +20,18 @@
       >
         <template v-if="true" #default="{ object }">
           {{ object.item.name }}
-          <v-button v-if="showButton1" size="small" class="ml-2">
+          <v-button v-if="showButton1" size="sm" class="ml-2">
             {{ object.item.shortName }}
           </v-button>
         </template>
         <template v-if="showButton2" #append>
           <v-button
-            size="small"
+            size="sm"
             class="ml-auto sticky z-5 right-0"
             type="plain"
             :shadow="false"
-            icon
-          >
-            <v-icon class="mdi:dots-horizontal" />
-          </v-button>
+            icon="mdi:dots-horizontal"
+          />
         </template>
       </v-tree>
     </div>
@@ -77,27 +75,24 @@
 
 <script setup lang="ts">
 import region from "../region"
+import type { TreeItem, TreeDragObject, DragPosition } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
-interface TreeDataItem {
-  id: string
-  name: string
-  children: TreeDataItem[] | undefined
-}
-const treeData = ref<TreeDataItem[]>([...region])
-const treeSelectedList = ref<TreeDataItem[]>([])
+const treeData = ref<TreeItem[]>([...region])
+const treeSelectedList = ref<TreeItem[]>([])
 
 const checkStrategy = ref<"all" | "parent" | "child">("all")
 const maxlevel = ref(0)
 
-const droppable = (
-  dragging: TreeDragObject<TreeItem>,
-  target: TreeDragObject<TreeItem>,
-  position: DragPosition
-) => {
-  if (position === "inner") return false
-  return dragging.siblings === target.siblings
-}
+// const droppable = (
+//   dragging: TreeDragObject<TreeItem>,
+//   target: TreeDragObject<TreeItem>,
+//   position: DragPosition
+// ) => {
+//   if (position === "inner") return false
+//   return dragging.siblings === target.siblings
+// }
 const TreeDragObjectHandle = (
   dragging: TreeDragObject<TreeItem>,
   target: TreeDragObject<TreeItem>,

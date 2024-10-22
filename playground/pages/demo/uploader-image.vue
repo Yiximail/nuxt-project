@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import type { UploaderItem, UploadFunction } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const uploadList = ref<UploaderItem[]>([

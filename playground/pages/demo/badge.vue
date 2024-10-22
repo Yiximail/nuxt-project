@@ -89,9 +89,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Color } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
-const color = ref<Colors>("danger")
+const color = ref<Color>("danger")
 
 const number = ref(3)
 const max = ref(99)

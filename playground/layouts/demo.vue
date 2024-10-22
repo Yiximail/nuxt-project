@@ -60,6 +60,7 @@
           <v-menu-item to="/demo/loading" label="加载中" />
           <v-menu-item to="/demo/description" label="描述列表" />
           <v-menu-item to="/demo/table" label="表格" />
+          <v-menu-item to="/demo/pagination" label="分页" />
           <v-menu-item to="/demo/tree" label="树" />
           <v-menu-item to="/demo/steps" label="步骤条" />
           <v-menu-item to="/demo/timeline" label="时间轴" />

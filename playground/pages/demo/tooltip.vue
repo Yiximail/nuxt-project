@@ -78,6 +78,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Placement } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const content = ref("提示内容 提示内容 提示内容 提示内容 提示内容")

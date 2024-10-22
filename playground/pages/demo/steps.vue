@@ -67,6 +67,8 @@
 </template>
 
 <script setup lang="ts">
+import type { StepsStatus } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const current = ref(0)

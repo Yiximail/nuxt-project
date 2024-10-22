@@ -87,7 +87,8 @@ const type = ref<"outline" | "underline" | "none">("outline")
 
 const fakeUpload = ref(true)
 const imageProcess = async (file: File) => {
-  $message.info("模拟上传中...")
+  console.log("upload", file)
+  $message("模拟上传中...")
   await new Promise((resolve) => window.setTimeout(resolve, 1000))
   // const url = URL.createObjectURL(file)
   // return url

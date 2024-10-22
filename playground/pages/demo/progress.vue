@@ -93,6 +93,7 @@
 
 <script setup lang="ts">
 import type { VProgress } from "#components"
+import type { Color } from "#ui"
 
 definePageMeta({ layout: "demo" })
 
@@ -105,7 +106,7 @@ const duration = ref(5)
 
 const direction = ref<"horizontal" | "vertical">("horizontal")
 const fixed = ref<"start" | "end">("start")
-const color = ref<Colors>("primary")
+const color = ref<Color>("primary")
 const barColor = computed(() => {
   switch (color.value) {
     case "primary":

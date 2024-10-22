@@ -6,8 +6,8 @@
     :class="ui.mask"
     :before-show="beforeShow"
     :before-hide="beforeHide"
-    :close-on-click="closeOnClick"
-    :close-on-esc="closeOnEsc"
+    :close-on-click="false"
+    :close-on-esc="false"
     @before-show="$emit('before-show')"
     @show="$emit('show')"
     @showed="$emit('showed')"
@@ -141,6 +141,8 @@ const emits = defineEmits<{
   "before-hide": []
   hide: []
   hid: []
+  "click-outside": [event: MouseEvent]
+  "click-esc": [event: KeyboardEvent]
 }>()
 
 defineSlots<{
@@ -159,27 +161,35 @@ const containerClass = computed(() => {
   )
 })
 
-// const maskUpdate = (val: boolean) => {
-//   emits("update:model-value", val)
-// }
 const isShowDrawer = ref(false)
 const show = computed(() => props.modelValue ?? isShowDrawer.value)
 const clickDocument = (event: MouseEvent) => {
+  emits("click-outside", event)
   const path = event.composedPath()
   if (!containerRef.value) return
   if (!path.includes(containerRef.value)) {
+    emits("click-outside", event)
+    if (!props.closeOnClick) return
     hideHandle()
   }
 }
+const escCloseHandle = (event: KeyboardEvent) => {
+  if (event.key !== "Escape") return
+  emits("click-esc", event)
+  if (props.closeOnEsc) hideHandle()
+}
 watch(show, (val) => {
   if (val) {
-    document.addEventListener("click", clickDocument)
+    document.addEventListener("mousedown", clickDocument)
+    document.addEventListener("keydown", escCloseHandle)
   } else {
-    document.removeEventListener("click", clickDocument)
+    document.removeEventListener("mousedown", clickDocument)
+    document.removeEventListener("keydown", escCloseHandle)
   }
 })
 onUnmounted(() => {
-  document.removeEventListener("click", clickDocument)
+  document.removeEventListener("mousedown", clickDocument)
+  document.removeEventListener("keydown", escCloseHandle)
 })
 const showHandle = () => {
   isShowDrawer.value = true

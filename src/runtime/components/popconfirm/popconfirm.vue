@@ -134,7 +134,7 @@ const props = withDefaults(
     /** 禁用 */
     disabled?: boolean
     /** 位置 */
-    placement?: Placement
+    placement?: Placement | Placement[]
     /** 弹出层配置 */
     popper?: PopperProps
     /** 拦截form校验，非响应 */
@@ -157,7 +157,7 @@ const props = withDefaults(
     trigger: "click",
     arrow: true,
     disabled: false,
-    placement: "top",
+    placement: () => ["top", "bottom"],
     popper: undefined,
     interceptForm: true
   }

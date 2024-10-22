@@ -72,7 +72,7 @@ const props = withDefaults(
     /** 禁用 */
     disabled?: boolean
     /** 位置 */
-    placement?: Placement
+    placement?: Placement | Placement[]
     /** 弹出层配置 */
     popper?: PopperProps
   }>(),
@@ -85,7 +85,7 @@ const props = withDefaults(
     trigger: "hover",
     arrow: true,
     disabled: false,
-    placement: "top",
+    placement: () => ["top", "bottom"],
     popper: undefined
   }
 )

@@ -100,13 +100,9 @@
 </template>
 
 <script setup lang="ts">
-import type { TableSelectedGenericInfo } from "#ui"
+import type { TableSelectedGenericInfo, TableColumnControl, TableDragObject, DragPosition, SelectOption } from "#ui"
 
 definePageMeta({ layout: "demo" })
-interface SelectItem {
-  value: undefined | string
-  label: string
-}
 
 interface TableDataItem {
   name: string
@@ -164,7 +160,7 @@ onMounted(() => {
   })
 })
 
-const options = ref<SelectItem[]>([
+const options = ref<SelectOption[]>([
   { value: "1", label: "选项1" },
   { value: "2", label: "选项2" },
   {
@@ -228,17 +224,12 @@ onMounted(() => {
   refreshTable()
 })
 
-const inputValue = ref<string>()
 const startValue = ref<string>()
 const endValue = ref<string>()
 const draggable = ref(false)
-const label = ref("日期输入框")
 const placeholder = ref("请选择")
 const inputType = ref<"datetime" | "date" | "time">("date")
 
-const type = ref<"outline" | "underline" | "none">("outline")
-
 const disabled = ref(false)
 const clearable = ref(true)
-const alwaysShow = ref(false)
 </script>

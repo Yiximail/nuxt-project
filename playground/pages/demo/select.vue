@@ -152,6 +152,8 @@
 </template>
 
 <script setup lang="ts">
+import type { SelectOption } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const selectValue1 = ref()
@@ -164,7 +166,7 @@ const selectObject3 = ref()
 const selectObject4 = ref()
 
 const size = ref<"xl" | "lg" | "md" | "sm" | "xs">("md")
-const options = ref<SelectItem[]>([
+const options = ref<SelectOption[]>([
   { value: "1", label: "选项1" },
   { value: "2", label: "选项2" },
   {
@@ -179,7 +181,7 @@ const options = ref<SelectItem[]>([
   { value: "9", label: "选项9" },
   { value: "10", label: "选项10" }
 ])
-const remoteOptions = ref<SelectItem[]>([])
+const remoteOptions = ref<SelectOption[]>([])
 const loading = ref(false)
 const searchHandle = async (key: string) => {
   loading.value = true

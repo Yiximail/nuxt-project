@@ -35,7 +35,7 @@
         :cancel-color="cancelColor"
       >
         <v-button color="natural">
-          自定义对话框
+          自定义气泡确认框
         </v-button>
       </v-popconfirm>
     </div>
@@ -52,6 +52,9 @@
       <v-form-item label="内容" fieldset="outline">
         <v-input v-model="content" />
       </v-form-item>
+      <div class="py-3 font-bold">
+        以下是自定义气泡确认框的配置项
+      </div>
       <v-form-item label="显示确定按钮">
         <v-checkbox v-model="showConfirm" />
       </v-form-item>
@@ -107,6 +110,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Color } from "#ui"
+
 definePageMeta({ layout: "demo" })
 
 const buttonIcon = ref(
@@ -116,8 +121,8 @@ const showConfirm = ref(true)
 const showCancel = ref(true)
 const confirmText = ref("确定")
 const cancelText = ref("取消")
-const confirmColor = ref<Colors>()
-const cancelColor = ref<Colors>()
+const confirmColor = ref<Color>()
+const cancelColor = ref<Color>()
 
 const title = ref("标题")
 const content = ref("内容")
