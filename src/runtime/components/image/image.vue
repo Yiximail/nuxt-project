@@ -35,13 +35,7 @@ import useUi from "../../composables/use-ui"
 import classMerge from "../../utils/class-merge"
 import guid from "../../utils/guid"
 import { IMAGE_PREVIEW_INJECTION } from "../../utils/injection-keys"
-import {
-  ref,
-  computed,
-  watchEffect,
-  onBeforeUnmount,
-  inject
-} from "vue"
+import { ref, computed, watchEffect, onBeforeUnmount, inject } from "vue"
 
 import type { DeepPartial, ClassNameValue, UI } from "../../types"
 import type { CSSProperties } from "vue"
@@ -150,7 +144,7 @@ const imageStyle = computed(() => {
     if (typeof props.height === "number") {
       style.height = `${props.height}px`
     } else if (typeof props.height === "string") {
-      if (/^\d+\.$/.test(props.height)) style.height = `${props.height}px`
+      if (/^\d+(\.\d+)?$/.test(props.height)) style.height = `${props.height}px`
       else style.height = props.height
     }
   }
@@ -158,7 +152,7 @@ const imageStyle = computed(() => {
     if (typeof props.width === "number") {
       style.width = `${props.width}px`
     } else if (typeof props.width === "string") {
-      if (/^\d+\.$/.test(props.width)) style.width = `${props.width}px`
+      if (/^\d+(\.\d+)?$/.test(props.width)) style.width = `${props.width}px`
       else style.width = props.width
     }
   }

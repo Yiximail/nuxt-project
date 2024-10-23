@@ -289,7 +289,7 @@ const getChildrenSelectedCount = (option: CascaderOption) => {
   if (!selected) return 0
   const path = selected.path
   return path.some((pathItem) => {
-    const item = pathItem.item as GenericItem
+    const item = pathItem as GenericItem
     const optionItem = option.item as GenericItem
     return item[props.keyName] === optionItem[props.keyName]
   })
