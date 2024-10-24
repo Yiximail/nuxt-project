@@ -1,7 +1,7 @@
 import { computed } from "vue"
 import type { Ref } from "vue"
 
-import type { CascaderItem, CascaderOption } from "../types"
+import type { CascaderItem, CascaderOption, CascaderValue } from "../types"
 
 /** a 与 b 相等 */
 const isMatchList = (a: CascaderItem[], b: CascaderItem[], key: string) => {
@@ -61,6 +61,15 @@ export default (
   flatList: Ref<CascaderOption[]>,
   selectedList: Ref<CascaderOption[]>
 ) => {
+  const selectedMap = computed(() => {
+    const map = new Map<CascaderValue, CascaderOption>()
+    for (let i = 0; i < selectedList.value.length; i += 1) {
+      const item = selectedList.value[i]
+      map.set(item.item[props.keyName], item)
+    }
+    return map
+  })
+
   const allSelect = (
     list: CascaderOption[],
     option: CascaderOption
@@ -70,7 +79,7 @@ export default (
     const parent = parentPath[parentPath.length - 1]
     let siblings: CascaderItem[] = []
     if (parent) {
-      siblings = parent?.[props.childrenName] as CascaderItem[]
+      siblings = parent[props.childrenName]
     } else {
       siblings = itemList.value
     }
@@ -210,30 +219,38 @@ export default (
     return newList
   }
   const childSelect = (
+    /** 已选列表 */
     list: CascaderOption[],
+    /** 目标项 */
     option: CascaderOption,
+    /** 是否包含中途路径 */
     includePath = false
   ): CascaderOption[] => {
+    const selectedSet = new Set(list.map((item) => item.item[props.keyName]))
     const addList: CascaderOption[] = []
-    const exist = list.some(
-      (selectedItem) =>
-        selectedItem.item[props.keyName] === option.item[props.keyName]
-    )
-    if (exist) return addList
-    if (includePath) addList.push(option)
-    const path = option.path
-    const children = option.item[props.childrenName] as CascaderItem[]
-    const reachedMaxLevel =
-      !!props.maxlevel && option.path.length > props.maxlevel - 1
-    if (!children?.length || reachedMaxLevel) {
-      if (!includePath) addList.push(option)
-      return addList
-    }
-    for (let i = 0; i < children.length; i += 1) {
-      const item = children[i]
-      const childOption = { item, path: [...path, item] }
-      const childResults = childSelect(list, childOption, includePath)
-      addList.push(...childResults)
+    const stack: CascaderOption[] = [option]
+    while (stack.length) {
+      const current = stack.pop()!
+      const exist = selectedSet.has(current.item[props.keyName])
+      if (exist) continue
+
+      const path = current.path
+      const children = current.item[props.childrenName] as CascaderItem[]
+      const reachedMaxLevel =
+        !!props.maxlevel && current.path.length > props.maxlevel - 1
+      if (!children?.length || reachedMaxLevel) {
+        addList.push(current)
+        selectedSet.add(current.item[props.keyName])
+        continue
+      }
+      if (includePath) {
+        addList.push(current)
+        selectedSet.add(current.item[props.keyName])
+      }
+      for (let i = 0; i < children.length; i += 1) {
+        const item = children[i]
+        stack.push({ item, path: path.concat(item) })
+      }
     }
     return addList
   }
@@ -277,9 +294,10 @@ export default (
           (item) => item.length === path.length
         )
         if (index !== -1) temPathList.splice(index)
-        const isSelected = selectedList.value.some((option) =>
-          isMatchList(option.path, path, props.keyName)
-        )
+        // const isSelected = selectedList.value.some((option) =>
+        //   isMatchList(option.path, path, props.keyName)
+        // )
+        const isSelected = selectedMap.value.has(item.item[props.keyName])
         if (isSelected) {
           results.push(path)
           temPathList.push(path)
@@ -321,9 +339,10 @@ export default (
         if (children?.length && !reachedMaxLevel) {
           continue
         }
-        const isSelected = selectedList.value.some((option) =>
-          isMatchList(option.path, path, key)
-        )
+        // const isSelected = selectedList.value.some((option) =>
+        //   isMatchList(option.path, path, key)
+        // )
+        const isSelected = selectedMap.value.has(item.item[props.keyName])
         if (!isSelected) continue
         for (let j = 0; j < path.length; j += 1) {
           const subList = path.slice(0, j + 1)
@@ -347,9 +366,10 @@ export default (
     } else {
       const children = option.item?.[props.childrenName] as CascaderItem[]
       if (!children?.length) {
-        return selectedList.value.some((item) =>
-          isMatchList(item.path, option.path, props.keyName)
-        )
+        // return selectedList.value.some((item) =>
+        //   isMatchList(item.path, option.path, props.keyName)
+        // )
+        return selectedMap.value.has(option.item[props.keyName])
       }
       for (let i = 0; i < children.length; i += 1) {
         const child = children[i]

@@ -3,6 +3,7 @@
     <div
       class="border-2 border-natural-300 dark:border-natural-700 rounded p-5 gap-1"
     >
+      {{ `已选: ${treeSelectedList.length}` }}
       <v-tree
         v-loading="loading"
         :selected-list="selectedAble ? treeSelectedList : undefined"
@@ -82,7 +83,7 @@ definePageMeta({ layout: "demo" })
 const treeData = ref<TreeItem[]>([...region])
 const treeSelectedList = ref<TreeItem[]>([])
 
-const checkStrategy = ref<"all" | "parent" | "child">("all")
+const checkStrategy = ref<"all" | "parent" | "child">("parent")
 const maxlevel = ref(0)
 
 // const droppable = (

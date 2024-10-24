@@ -269,6 +269,14 @@ const { flatOptions } = useCascaderOption(
   },
   slots as CascaderOptionsInjection["slots"]
 )
+const flatOptionMap = computed(() => {
+  const map = new Map<CascaderValue, CascaderOption>()
+  flatOptions.value.forEach((option) => {
+    const obj = option.item as GenericItem
+    map.set(obj[props.keyName], option)
+  })
+  return map
+})
 
 const selectedList = computed(() => {
   let values = props.object?.map((item: unknown) => {
@@ -279,19 +287,10 @@ const selectedList = computed(() => {
     values = props.modelValue
   }
   if (!values) return []
-  const results: CascaderOption[] = []
-  for (let i = 0; i < values.length; i += 1) {
-    const item = flatOptions.value.find((option) => {
-      const obj = option.item as GenericItem
-      return obj[props.keyName] === values[i]
-    })
-    if (item) {
-      results.push(item)
-    } else {
-      console.warn("[v-cascader-multiple]: 找不到选项", values[i])
-    }
-  }
-  return results
+  const results = values
+    .map((value) => flatOptionMap.value.get(value))
+    .filter(Boolean)
+  return results as CascaderOption[]
 })
 
 const isShowClearButton = computed(() => {

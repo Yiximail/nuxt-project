@@ -328,25 +328,38 @@ const objectList = computed(() => {
 
 const getFlatOpjectList = (
   list: GenericItem[],
-  indexList: number[],
   path: GenericItem[]
 ): TreeObject[] => {
   const results: TreeObject[] = []
-  for (let i = 0; i < list.length; i += 1) {
-    const item = list[i]
-    const itemIndexList = [...indexList, i]
-    const itemPath = [...path, item]
-    results.push({ item, path: itemPath })
-    const children = item[props.childrenName]
-    if (!Array.isArray(children) || children.length === 0) continue
-    const childList = getFlatOpjectList(children, itemIndexList, itemPath)
-    results.push(...childList)
+  const stack: {
+    list: GenericItem[]
+    path: GenericItem[]
+  }[] = [{ list, path }]
+  while (stack.length) {
+    const { list, path } = stack.pop()!
+    for (let i = 0; i < list.length; i += 1) {
+      const item = list[i]
+      const itemPath = path.concat(item)
+      if (!!props.maxlevel && itemPath.length > props.maxlevel) continue
+      results.push({ item, path: itemPath })
+      const children = item[props.childrenName]
+      if (Array.isArray(children) && children.length > 0) {
+        stack.push({ list: children, path: itemPath })
+      }
+    }
   }
   return results
 }
 const flatObjectList = computed(() => {
-  const list = getFlatOpjectList(props.data, [], [])
+  const list = getFlatOpjectList(props.data, [])
   return list
+})
+const flatObjectMap = computed(() => {
+  const map = new Map<CascaderValue, CascaderOption>()
+  flatObjectList.value.forEach((item) => {
+    map.set(item.item[props.keyName], item)
+  })
+  return map
 })
 
 const selectedObject = computed(() => {
@@ -356,18 +369,10 @@ const selectedObject = computed(() => {
     return obj[props.keyName] as CascaderValue
   })
   if (!values) return []
-  const results: CascaderOption[] = []
-  for (let i = 0; i < values.length; i += 1) {
-    const item = flatObjectList.value.find(
-      (option) => option.item[props.keyName] === values[i]
-    )
-    if (item) {
-      results.push(item)
-    } else {
-      console.warn("[v-tree]: 找不到节点", values[i])
-    }
-  }
-  return results
+  const results = values
+    .map((value) => flatObjectMap.value.get(value))
+    .filter(Boolean)
+  return results as TreeObject[]
 })
 
 const {

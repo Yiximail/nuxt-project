@@ -1,7 +1,12 @@
 import { CASCADER_OPTIONS_INJECTION } from "../utils/injection-keys"
 import { ref, computed, toRef, provide } from "vue"
 
-import type { ComponentSlot, CascaderItem, CascaderOption, CascaderValue } from "../types"
+import type {
+  ComponentSlot,
+  CascaderItem,
+  CascaderOption,
+  CascaderValue
+} from "../types"
 
 export default (
   /** 是否为多选 */
@@ -54,37 +59,32 @@ export default (
   })
 
   const getFlatOptions = (
-    path: CascaderItem[],
-    items: CascaderItem[]
+    list: CascaderItem[],
+    path: CascaderItem[]
   ): CascaderOption[] => {
-    const result: {
+    const results: CascaderOption[] = []
+    const stack: {
+      list: CascaderItem[]
       path: CascaderItem[]
-      item: CascaderItem
-    }[] = []
-    const checkChildren = !props.maxlevel || path.length < props.maxlevel - 1
-    let childList: {
-      path: CascaderItem[]
-      item: CascaderItem
-    }[] = []
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i]
-      const children = item[props.childrenName] as CascaderItem[]
-      childList = []
-      if (checkChildren && Array.isArray(children)) {
-        const nextPath = [...path, item]
-        childList = getFlatOptions(nextPath, children)
+    }[] = [{ list, path }]
+    while (stack.length) {
+      const { list, path } = stack.pop()!
+      for (let i = 0; i < list.length; i += 1) {
+        const item = list[i]
+        const itemPath = path.concat(item)
+        if (!!props.maxlevel && itemPath.length > props.maxlevel) continue
+        results.push({ item, path: itemPath })
+        const children = item[props.childrenName]
+        if (Array.isArray(children) && children.length > 0) {
+          stack.push({ list: children, path: itemPath })
+        }
       }
-      result.push({
-        path: [...path, item],
-        item
-      })
-      if (childList.length) result.push(...childList)
     }
-    return result
+    return results
   }
 
   const flatOptions = computed(() => {
-    return getFlatOptions([], props.options)
+    return getFlatOptions(props.options, [])
   })
 
   provide(CASCADER_OPTIONS_INJECTION, {
