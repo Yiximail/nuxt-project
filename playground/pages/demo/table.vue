@@ -4,6 +4,7 @@
       class="border-2 border-natural-300 dark:border-natural-700 rounded p-5 gap-1"
     >
       <v-table
+        ref="tableRef"
         v-model:sort-key="sortKey"
         v-model:sort-order="sortOrder"
         v-model:control-list="controlList"
@@ -85,6 +86,14 @@
       />
     </div>
     <v-form>
+      <v-form-item label="滚动">
+        <v-checkbox v-model="isScrollToTop">
+          切换页面后滚动到顶部
+        </v-checkbox>
+        <v-button @click="scrollToTop">
+          滚动到顶部
+        </v-button>
+      </v-form-item>
       <v-form-item label="选择类型">
         <v-radio-button v-model="selectMode" value="info" label="多页选择" />
         <v-radio-button v-model="selectMode" value="list" label="单页选择" />
@@ -100,7 +109,15 @@
 </template>
 
 <script setup lang="ts">
-import type { TableSelectedGenericInfo, TableColumnControl, TableDragObject, DragPosition, SelectOption } from "#ui"
+import type {
+  TableSelectedGenericInfo,
+  TableColumnControl,
+  TableDragObject,
+  DragPosition,
+  SelectOption,
+  ComponentInstance
+} from "#ui"
+import { VButton, VTable } from "#components"
 
 definePageMeta({ layout: "demo" })
 
@@ -113,17 +130,9 @@ interface TableDataItem {
   data2: string
   data3: string
 }
-const selectedList = ref<
-{
-  name: string
-  age: number
-  address: string
-  cash: number
-  data1: string
-  data2: string
-  data3: string
-}[]
->([])
+const selectedList = ref<TableDataItem[]>([])
+
+const tableRef = ref<ComponentInstance<typeof VTable<TableDataItem>>>()
 
 const selectMode = ref<string>("list")
 
@@ -133,17 +142,7 @@ const selectedInfo = ref<TableSelectedGenericInfo<TableDataItem>>({
   excludeList: []
 })
 const tableLoading = ref(false)
-const tableData = ref<
-{
-  name: string
-  age: number
-  address: string
-  cash: number
-  data1: string
-  data2: string
-  data3: string
-}[]
->([])
+const tableData = ref<TableDataItem[]>([])
 
 const cash = ref("")
 const address = ref<string>()
@@ -202,7 +201,7 @@ const refreshTable = async () => {
   tableLoading.value = true
   await new Promise((resolve) => window.setTimeout(resolve, 500))
   const list = [] as typeof tableData.value
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < pageSize.value; i++) {
     list.push({
       name: guid(),
       age: Math.random(),
@@ -215,6 +214,7 @@ const refreshTable = async () => {
   }
   tableData.value = list
   tableLoading.value = false
+  if (isScrollToTop.value) scrollToTop()
 }
 const pageSize = ref(20)
 const pageIndex = ref(1)
@@ -232,4 +232,8 @@ const inputType = ref<"datetime" | "date" | "time">("date")
 
 const disabled = ref(false)
 const clearable = ref(true)
+const isScrollToTop = ref(true)
+const scrollToTop = () => {
+  tableRef.value?.scrollTo({ top: 0 })
+}
 </script>

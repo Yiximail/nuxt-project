@@ -8,12 +8,12 @@
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
   >
-    <template v-for="column in displayColumns" :key="column.label">
+    <template v-for="(column, i) in displayColumns" :key="column.label">
       <td v-if="column.fixed !== undefined" :class="classes.shadowContainer" />
       <v-table-body-cell
         :column="column"
         :row="row"
-        :index="index"
+        :index="i"
         @dragstart="dragstartHandle"
         @dragend="$emit('dragend')"
       />

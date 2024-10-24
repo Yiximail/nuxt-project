@@ -231,7 +231,6 @@ const updateFixedDistance = () => {
   let left = 0
   for (let i = 0; i < displayColumns.value.length; i += 1) {
     const column = displayColumns.value[i]
-    if (!column.show) continue
     if (column.fixed === "left") {
       column.fixedDistance = left
       left += column.realWidth || 0
@@ -243,7 +242,6 @@ const updateFixedDistance = () => {
   let right = 0
   for (let i = displayColumns.value.length - 1; i >= 0; i--) {
     const column = displayColumns.value[i]
-    if (!column.show) continue
     if (column.fixed === "right") {
       column.fixedDistance = right
       right += column.realWidth || 0
@@ -299,7 +297,6 @@ const updateShadowIndex = () => {
   for (let i = 0; i < displayColumns.value.length; i += 1) {
     if (left >= scrollLeft) break
     const item = displayColumns.value[i]
-    if (!item.show) continue
     if (item.fixed === "left") {
       leftIndex = i
     } else {
@@ -309,7 +306,6 @@ const updateShadowIndex = () => {
   for (let i = displayColumns.value.length - 1; i >= 0; i -= 1) {
     if (right >= scrollRight) break
     const item = displayColumns.value[i]
-    if (!item.show) continue
     if (item.fixed === "right") {
       rightIndex = i
     } else {
@@ -728,7 +724,7 @@ provide(TABLE_INJECTION, {
   columns,
   setColumn,
   removeColumn,
-  controlList: _controlList,
+  controlList: computed(() => props.controlList ?? _controlList.value),
   updateControlList,
   resetControlList,
   moveColumn,

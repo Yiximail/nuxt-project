@@ -1,4 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> | undefined }
+
+// Reference: https://github.com/vuejs/language-tools/issues/3206#issuecomment-1624541884
+export type ComponentInstance<T> = T extends new (...args: any[]) => infer R
+  ? R
+  : T extends (...args: any[]) => infer R
+    ? R extends { __ctx?: infer C }
+      ? Exclude<C, void> extends { expose: (...args: infer K) => void }
+        ? K[0] & InstanceType<import("vue").DefineComponent>
+        : any
+      : any
+    : any
 
 export type ClassNameValue =
   | string
@@ -14,7 +27,6 @@ export type IconComponent =
     src?: string
   }
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type ComponentSlot = any
 
 export interface ReferenceAbleComponent {
@@ -53,7 +65,6 @@ export type QuillFormats =
   | "color" /** 文字颜色 */
   | "background" /** 背景颜色 */
   | "clean" /** 清除格式 */
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type QuillImports = Record<string, any>
 
 export interface ImagePreviewConfig {
@@ -70,11 +81,9 @@ export type SelectValue =
   | Record<string, unknown>
   | null
   | undefined
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type SelectOption = Record<string, any>
 
 export type CascaderValue = string | number | boolean | null | undefined
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type CascaderItem = Record<string, any>
 export interface CascaderOption {
   path: CascaderItem[]
@@ -206,7 +215,6 @@ export interface NotificationConfig {
 }
 
 export type UploaderStatus = "pending" | "loading" | "success" | "fail"
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type UploadData = any
 export interface UploaderItem {
   /** 唯一标识 */
@@ -229,7 +237,6 @@ export type UploadFunction = (
   cb: (percentage: number) => void
 ) => Promise<{ status: "success" | "fail"; data: UploadData } | void>
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type TableData = any
 export type TableItem = Record<string, TableData>
 export interface TableDragObject<T> {
@@ -264,7 +271,6 @@ export interface TableColumnControl {
 }
 
 export type TreeValue = string | number | boolean | null | undefined
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type TreeItem = Record<string, any>
 export interface TreeObject {
   path: TreeItem[]
@@ -290,7 +296,7 @@ export interface PopperProps {
   /** 弹出层类名 */
   class?: ClassNameValue
   /** 组件样式配置 */
-  ui?: DeepPartial<typeof import("../ui").default["popper"]>
+  ui?: DeepPartial<(typeof import("../ui").default)["popper"]>
   /** 是否禁用 */
   disabled?: boolean
 

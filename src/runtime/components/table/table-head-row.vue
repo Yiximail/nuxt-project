@@ -13,6 +13,7 @@
       />
       <v-table-head-cell
         :column="column"
+        :index="i"
         @observe="thMountedHandle"
         @unobserve="thUnmountedHandle"
       />

@@ -40,7 +40,7 @@ import classMerge from "../../utils/class-merge"
 import { TABLE_INJECTION } from "../../utils/injection-keys"
 import { ref, computed, inject } from "vue"
 
-import type { DeepPartial, ClassNameValue, TableItem, UI } from "../../types"
+import type { TableItem } from "../../types"
 import type { TableColumn } from "../../types/injections"
 import type { CSSProperties } from "vue"
 
@@ -49,12 +49,10 @@ const tdRef = ref<HTMLTableCellElement>()
 const props = defineProps<{
   /** 列元素 */
   column: TableColumn
+  /** 列数 */
+  index: number
   /** 行元素 */
   row: TableItem
-  /** 容器类名 */
-  class?: ClassNameValue
-  /** 组件样式配置 */
-  ui?: DeepPartial<UI["tableBodyCell"]>
 }>()
 
 defineEmits<{
@@ -62,11 +60,13 @@ defineEmits<{
   dragend: []
 }>()
 
-const { ui } = useUi("tableBodyCell", props)
+const { ui } = useUi("tableBodyCell", {})
 
 const {
   classes,
   selectKey,
+  leftShadowIndex,
+  rightShadowIndex,
   isSelected,
   toggleSelect,
   mouseenterCell,
@@ -89,8 +89,7 @@ const cellClass = computed(() => {
   return classMerge(
     ui.value.base,
     classes.value.bodyCell,
-    props.column.bodyCellClass,
-    props.class
+    props.column.bodyCellClass
   )
 })
 const cellStyle = computed(() => {
@@ -104,11 +103,17 @@ const cellStyle = computed(() => {
   if (props.column.fixed === "left") {
     style.position = "sticky"
     style.left = `${props.column.fixedDistance}px`
-    style.zIndex = props.column.fixedZindex
+    style.zIndex =
+      leftShadowIndex.value !== -1 && props.index <= leftShadowIndex.value
+        ? props.column.fixedZindex
+        : 0
   } else if (props.column.fixed === "right") {
     style.position = "sticky"
     style.right = `${props.column.fixedDistance}px`
-    style.zIndex = props.column.fixedZindex
+    style.zIndex =
+      rightShadowIndex.value !== -1 && props.index >= rightShadowIndex.value
+        ? 1
+        : 0
   } else {
     style.position = "relative"
     style.zIndex = 0
