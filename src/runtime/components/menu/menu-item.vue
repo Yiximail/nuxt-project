@@ -167,6 +167,7 @@ const { ui } = useUi("menuItem", props)
 const { disabled } = useInheritedDisabled(props)
 const elementRef = computed(() => {
   const linkEl = (linkRef.value as Record<string, unknown>)?.$el
+  if (window === undefined) return undefined
   if (linkEl instanceof HTMLElement) {
     return linkEl
   } else if (containerRef.value) {

@@ -120,6 +120,7 @@ const { size } = useInheritedSize(props)
 const { disabled } = useInheritedDisabled(props)
 const elementRef = computed(() => {
   const linkEl = (linkRef.value as Record<string, unknown>)?.$el
+  if (window === undefined) return undefined
   if (linkEl instanceof HTMLElement) return linkEl
   if (buttonRef.value) return buttonRef.value
   return undefined

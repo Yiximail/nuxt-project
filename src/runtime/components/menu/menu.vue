@@ -11,7 +11,6 @@
     </template>
     <transition name="v-fade" mode="out-in">
       <v-scrollbar
-        v-if="mounted"
         :ui="{
           container: scrollerClass,
           content: contentClass,
@@ -21,7 +20,6 @@
       >
         <slot :expanded="showExpanded" />
       </v-scrollbar>
-      <div v-else :class="scrollerClass" />
     </transition>
     <template v-if="$slots.footer">
       <v-divider
@@ -301,10 +299,5 @@ provide(MENU_INJECTION, {
   currentRoute,
   childInherit: toRef(props, "childInherit"),
   parentActive: toRef(props, "parentActive")
-})
-
-const mounted = ref(false)
-onMounted(() => {
-  mounted.value = true
 })
 </script>
