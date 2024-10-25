@@ -104,7 +104,8 @@ const {
   keyName,
   childrenName,
   checkStrictly,
-  maxlevel
+  maxlevel,
+  maxFilterCount
 } = inject(CASCADER_OPTIONS_INJECTION)!
 
 const { getLastSelected } = inject(CASCADER_SELECT_INJECTION)!
@@ -112,22 +113,29 @@ const { getLastSelected } = inject(CASCADER_SELECT_INJECTION)!
 const keyword = ref("")
 const filteredList = computed(() => {
   if (props.remote || !keyword.value || !labelName.value) {
-    return flatOptions.value.slice(0, 50).map((item) => item.item) ?? []
+    return (
+      flatOptions.value
+        .slice(0, maxFilterCount.value)
+        .map((item) => item.item) ?? []
+    )
   }
-  return flatOptions.value
-    .filter((option) => {
-      if (!checkStrictly.value) {
-        const level = option.path?.length ?? 0
-        let hasChildren = option.item[childrenName.value]?.length
-        if (maxlevel.value && level >= maxlevel.value) hasChildren = false
-        if (hasChildren) return false
-      }
-      const labels = option.path?.map((item) => item?.[labelName.value]) ?? []
-      const label = labels.join("/")
-      return label?.includes(keyword.value)
-    })
-    .slice(0, 50)
-    .map((item) => item.item)
+  const result: CascaderItem[] = []
+  for (let i = 0; i < flatOptions.value.length; i += 1) {
+    const option = flatOptions.value[i]
+    if (!checkStrictly.value) {
+      const level = option.path?.length ?? 0
+      let hasChildren = option.item[childrenName.value]?.length
+      if (maxlevel.value && level >= maxlevel.value) hasChildren = false
+      if (hasChildren) continue
+    }
+    const labels = option.path?.map((item) => item?.[labelName.value]) ?? []
+    const label = labels.join("/")
+    if (label?.includes(keyword.value)) {
+      result.push(option.item)
+    }
+    if (result.length >= maxFilterCount.value) break
+  }
+  return result
 })
 
 const itemRef = ref<InstanceType<typeof VCascaderPopperItem>[]>()

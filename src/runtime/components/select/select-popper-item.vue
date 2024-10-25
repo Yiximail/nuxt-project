@@ -90,7 +90,7 @@ const appendClass = computed(() => {
 })
 
 const { labelName, keyName, slots } = inject(SELECT_OPTIONS_INJECTION)!
-const { selected, disabledOption, selectHandle, unselectHandle } = inject(
+const { selected, selectedMap, disabledOption, selectHandle, unselectHandle } = inject(
   SELECT_SELECT_INJECTION
 )!
 
@@ -125,6 +125,9 @@ const isSelectabled = computed(() => {
 
 const isSelected = computed(() => {
   if (!keyName.value) return false
+  // 多选才有
+  if (selectedMap) return selectedMap.value.has(props.option[keyName.value])
+  // 单选判断
   const value = props.option[keyName.value]
   return selected.value.some((item) => item[keyName.value] === value) ?? false
 })

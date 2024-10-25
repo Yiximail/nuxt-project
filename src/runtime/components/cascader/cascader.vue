@@ -148,6 +148,8 @@ const props = withDefaults(
     searchMaxlength?: number
     /** 输入框占位符 */
     searchPlaceholder?: string
+    /** 筛选时显示最多数量 */
+    maxFilterCount?: number
     /** 弹窗的配置 */
     popper?: PopperProps
   }>(),
@@ -176,6 +178,7 @@ const props = withDefaults(
     searchMaxlength: undefined,
     searchPlaceholder: undefined,
     alwaysShowIcon: true,
+    maxFilterCount: 200,
     popper: undefined
   }
 )
@@ -246,7 +249,7 @@ const arrowClass = computed(() => {
   )
 })
 
-const { flatOptions } = useCascaderOption(
+const { flatOptionsMap } = useCascaderOption(
   false,
   props as {
     options: CascaderItem[]
@@ -255,6 +258,7 @@ const { flatOptions } = useCascaderOption(
     childrenName: string
     checkStrictly: boolean
     maxlevel: number
+    maxFilterCount: number
   },
   slots as CascaderOptionsInjection["slots"]
 )
@@ -264,11 +268,7 @@ const selectedItem = computed(() => {
   if (!props.object && props.modelValue) {
     objectValue = props.modelValue
   }
-  return flatOptions.value.find((option) => {
-    const item = option.item as GenericItem
-    const value = item[props.keyName]
-    return value === objectValue
-  })
+  return flatOptionsMap.value.get(objectValue)
 })
 
 const isShowClearButton = computed(() => {

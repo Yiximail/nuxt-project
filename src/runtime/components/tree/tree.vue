@@ -502,9 +502,7 @@ const dragendHandle = () => {
 }
 
 provide(TREE_INJECTION, {
-  classes: computed(() => {
-    return ui.value
-  }),
+  classes: ui,
   keyName: toRef(props, "keyName"),
   labelName: toRef(props, "labelName"),
   childrenName: toRef(props, "childrenName"),
@@ -513,7 +511,7 @@ provide(TREE_INJECTION, {
   expandingKey,
   collapsingKey,
   toggleExpand,
-  flatObjectList,
+  flatObjectMap,
   selectable: computed(() => props.selectedList !== undefined),
   isSelected,
   getChildrenSelectedCount,

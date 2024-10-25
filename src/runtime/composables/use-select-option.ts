@@ -49,11 +49,16 @@ export default (
     if (index > -1) injectOptions.value.splice(index, 1)
   }
 
-  const optionList = computed(() => {
-    return [...props.options, ...injectOptions.value]
-  })
-  const referenceList = computed(() => {
-    return [...props.options, ...injectOptions.value, ...props.extraOptions]
+  const optionList = computed(() => props.options.concat(injectOptions.value))
+  const referenceList = computed(() =>
+    props.options.concat(injectOptions.value).concat(props.extraOptions)
+  )
+  const referenceMap = computed(() => {
+    const map = new Map()
+    for (const option of referenceList.value) {
+      map.set(option.value, option)
+    }
+    return map
   })
 
   provide(SELECT_OPTIONS_INJECTION, {
@@ -65,5 +70,5 @@ export default (
     slots
   })
 
-  return { optionList, referenceList }
+  return { optionList, referenceList, referenceMap }
 }

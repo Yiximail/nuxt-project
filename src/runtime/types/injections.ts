@@ -3,7 +3,9 @@ import type {
   ComponentSlot,
   DragPosition,
   ImagePreviewConfig,
+  SelectValue,
   SelectOption,
+  CascaderValue,
   CascaderItem,
   CascaderOption,
   ValidateOptions,
@@ -12,6 +14,7 @@ import type {
   TableItem,
   TableDragObject,
   TableColumnControl,
+  TreeValue,
   TreeObject,
   TreeItem,
   TreeDragObject,
@@ -63,6 +66,8 @@ export interface SelectOptionsInjection {
 export interface SelectSelectInjection {
   /** 已选值 */
   selected: import("vue").Ref<SelectOption[]>
+  /** 已选值Map */
+  selectedMap?: import("vue").Ref<Map<SelectValue, SelectOption>>
   /** 禁用选项 */
   disabledOption: import("vue").Ref<(option: SelectOption) => boolean>
   /** 选择 */
@@ -82,8 +87,10 @@ export interface CascaderOptionsInjection {
 
   /** 选项 */
   optionsList: import("vue").Ref<{ key: CascaderValue; list: CascaderItem[] }[]>
-  /** 平铺选项 */
+  /** 平铺选项列表 */
   flatOptions: import("vue").Ref<CascaderOption[]>
+  /** 平铺选项Map */
+  flatOptionsMap: import("vue").Ref<Map<CascaderValue, CascaderOption>>
 
   /** 判断值的key name */
   keyName: import("vue").Ref<string>
@@ -95,6 +102,8 @@ export interface CascaderOptionsInjection {
   checkStrictly: import("vue").Ref<boolean>
   /** 显示最高级数 */
   maxlevel: import("vue").Ref<number>
+  /** 筛选时最多数量 */
+  maxFilterCount: import("vue").Ref<number>
 
   /** 插槽 */
   slots: {
@@ -105,8 +114,6 @@ export interface CascaderOptionsInjection {
   }
 }
 export interface CascaderSelectInjection {
-  /** 已选项 */
-  // selected: import("vue").Ref<CascaderOption[]>
   /** 获取最后一个已选 */
   getLastSelected: () => CascaderOption | undefined
   /** 是否已选 */
@@ -377,8 +384,8 @@ export interface TreeInjection {
   /** 切换展开 */
   toggleExpand: (key: unknown) => void
 
-  /** 平铺选项 */
-  flatObjectList: import("vue").Ref<TreeObject[]>
+  /** 平铺选项Map */
+  flatObjectMap: import("vue").Ref<Map<TreeValue, TreeObject>>
 
   /** 是否可选择 */
   selectable: import("vue").Ref<boolean>

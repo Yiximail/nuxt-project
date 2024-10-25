@@ -241,7 +241,7 @@ const arrowClass = computed(() => {
   )
 })
 
-const { referenceList } = useSelectOption(
+const { referenceMap } = useSelectOption(
   props as {
     options: SelectOption[]
     extraOptions: SelectOption[]
@@ -257,10 +257,7 @@ const selectedList = computed<GenericOption[]>(() => {
     const list = props.modelValue
     const results: GenericOption[] = []
     for (let i = 0; i < list.length; i += 1) {
-      const item = referenceList.value.find((item) => {
-        const option = item as GenericOption
-        return option[props.keyName] === list[i]
-      }) as GenericOption | undefined
+      const item = referenceMap.value.get(list[i])
       if (item) {
         results.push(item)
       } else {
@@ -273,6 +270,13 @@ const selectedList = computed<GenericOption[]>(() => {
     return results
   }
   return []
+})
+const selectedMap = computed(() => {
+  const map = new Map<SelectValue, GenericOption>()
+  selectedList.value.forEach((item) => {
+    map.set(item[props.keyName], item)
+  })
+  return map
 })
 
 const isShowClearButton = computed(() => {
@@ -296,7 +300,7 @@ const activeSelect = () => {
 }
 
 const selectHandle = (option: SelectOption) => {
-  const newList = [...selectedList.value, option]
+  const newList = selectedList.value.concat(option as GenericOption)
   updateModelValue(newList)
   emits("change", newList as GenericOption[])
   formEmits?.("change")
@@ -308,7 +312,7 @@ const unselectHandle = (option: SelectOption) => {
     return item[props.keyName] === genericOption[props.keyName]
   })
   if (index === -1) return
-  const newList = [...selectedList.value]
+  const newList = selectedList.value.slice()
   newList.splice(index, 1)
   updateModelValue(newList)
   emits("change", newList as GenericOption[])
@@ -322,6 +326,7 @@ const clearHandle = () => {
 
 provide(SELECT_SELECT_INJECTION, {
   selected: selectedList,
+  selectedMap,
   disabledOption: toRef(props, "disabledOption") as Ref<
   (option: SelectOption) => boolean
   >,

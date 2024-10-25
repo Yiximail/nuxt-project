@@ -145,6 +145,8 @@ const props = withDefaults(
     searchMaxlength?: number
     /** 输入框占位符 */
     searchPlaceholder?: string
+    /** 筛选时显示最多数量 */
+    maxFilterCount?: number
     /** 弹窗的配置 */
     popper?: PopperProps
   }>(),
@@ -171,6 +173,7 @@ const props = withDefaults(
     showSearch: true,
     searchMaxlength: undefined,
     searchPlaceholder: undefined,
+    maxFilterCount: 100,
     popper: undefined
   }
 )
@@ -239,22 +242,20 @@ const arrowClass = computed(() => {
   )
 })
 
-const { referenceList } = useSelectOption(
+const { referenceMap } = useSelectOption(
   props as {
     options: SelectOption[]
     extraOptions: SelectOption[]
     keyName: string
     labelName: string
+    maxFilterCount: number
   },
   slots as SelectOptionsInjection["slots"]
 )
 
 const selectedItem = computed<GenericOption | undefined>(() => {
   if (props.object) return props.object
-  const option = referenceList.value.find((item) => {
-    const genericItem = item as GenericOption
-    return genericItem[props.keyName] === props.modelValue
-  })
+  const option = referenceMap.value.get(props.modelValue)
   if (option) return option as GenericOption
   if (props.modelValue !== undefined) {
     return {

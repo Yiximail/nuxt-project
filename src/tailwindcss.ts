@@ -49,7 +49,7 @@ export default async (
   if (_options.warning) colors.push("warning")
   if (_options.danger) colors.push("danger")
   if (_options.natural) colors.push("natural")
-  if (_options.colors) colors.push(..._options.colors)
+  if (_options.colors) _options.colors.forEach(c => colors.push(c))
 
   /** tailwindcss的配置 */
   addTemplate({
@@ -119,7 +119,7 @@ export default {
     write: true
   })
 
-  let configPath = [
+  const configPath = [
     resolver.resolve(configDir, "tailwind.config.mjs"),
     resolver.resolve(_nuxt.options.rootDir, "tailwind.config")
   ]
@@ -128,10 +128,11 @@ export default {
   // @ts-ignore-next-line
   const twOptions = _nuxt.options?.tailwindcss as TwOptions | undefined
   if (twOptions) {
-    configPath = [
-      ...(twOptions.configPath ?? []),
-      ...configPath
-    ]
+    if (typeof twOptions.configPath === "string") {
+      configPath.push(twOptions.configPath)
+    } else if (Array.isArray(twOptions.configPath)) {
+      twOptions.configPath.forEach(p => configPath.push(p))
+    }
     await installModule("@nuxtjs/tailwindcss", {
       ...twOptions,
       configPath,

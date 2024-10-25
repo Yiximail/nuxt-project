@@ -24,6 +24,8 @@ export default (
     checkStrictly: boolean
     /** 显示最高级数 */
     maxlevel: number
+    /** 筛选时显示最多数量 */
+    maxFilterCount: number
   },
   slots: {
     option?: (props: { option: CascaderOption }) => ComponentSlot
@@ -87,19 +89,29 @@ export default (
     return getFlatOptions(props.options, [])
   })
 
+  const flatOptionsMap = computed(() => {
+    const map = new Map<CascaderValue, CascaderOption>()
+    flatOptions.value.forEach((option) => {
+      map.set(option.item[props.keyName], option)
+    })
+    return map
+  })
+
   provide(CASCADER_OPTIONS_INJECTION, {
     multiple,
     activedList,
     updateActivedList,
     optionsList,
     flatOptions,
+    flatOptionsMap,
     keyName: toRef(props, "keyName"),
     labelName: toRef(props, "labelName"),
     childrenName: toRef(props, "childrenName"),
     checkStrictly: toRef(props, "checkStrictly"),
     maxlevel: toRef(props, "maxlevel"),
+    maxFilterCount: toRef(props, "maxFilterCount"),
     slots
   })
 
-  return { optionsList, flatOptions }
+  return { optionsList, flatOptions, flatOptionsMap }
 }

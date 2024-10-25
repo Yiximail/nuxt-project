@@ -158,6 +158,8 @@ const props = withDefaults(
     searchMaxlength?: number
     /** 输入框占位符 */
     searchPlaceholder?: string
+    /** 筛选时显示最多数量 */
+    maxFilterCount?: number
     /** 弹窗的配置 */
     popper?: PopperProps
   }>(),
@@ -186,6 +188,7 @@ const props = withDefaults(
     searchMaxlength: undefined,
     searchPlaceholder: undefined,
     alwaysShowIcon: true,
+    maxFilterCount: 200,
     popper: undefined
   }
 )
@@ -266,6 +269,7 @@ const { flatOptions } = useCascaderOption(
     childrenName: string
     checkStrictly: boolean
     maxlevel: number
+    maxFilterCount: number
   },
   slots as CascaderOptionsInjection["slots"]
 )

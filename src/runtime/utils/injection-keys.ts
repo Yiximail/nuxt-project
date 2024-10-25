@@ -1,4 +1,4 @@
-import type { InjectionKey, MaybeRef, Ref } from "vue"
+import type { InjectionKey, MaybeRef } from "vue"
 import type { Size } from "../types"
 import type {
   ScrollbarInjection,

@@ -118,7 +118,7 @@ const {
   expandingKey,
   collapsingKey,
   toggleExpand,
-  flatObjectList,
+  flatObjectMap,
   selectable,
   isSelected,
   getChildrenSelectedCount,
@@ -132,9 +132,7 @@ const {
 
 const itemKey = computed(() => props.item[keyName.value])
 const object = computed(() => {
-  const option = flatObjectList.value.find(
-    (item) => item.item[keyName.value] === itemKey.value
-  )
+  const option = flatObjectMap.value.get(itemKey.value)
   if (option) return option
   return { item: props.item, path: [] } as TreeObject
 })

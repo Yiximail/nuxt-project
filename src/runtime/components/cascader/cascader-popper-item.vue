@@ -126,7 +126,7 @@ const {
   multiple,
   activedList,
   updateActivedList,
-  flatOptions,
+  flatOptionsMap,
   labelName,
   keyName,
   childrenName,
@@ -144,9 +144,7 @@ const {
 
 const itemKey = computed(() => props.item[keyName.value])
 const option = computed<CascaderOption>(() => {
-  const option = flatOptions.value.find(
-    (item: CascaderOption) => item.item[keyName.value] === itemKey.value
-  )
+  const option = flatOptionsMap.value.get(itemKey.value)
   if (option) return option
   return { item: props.item, path: [] } as CascaderOption
 })
